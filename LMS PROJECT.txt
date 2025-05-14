@@ -1,0 +1,115 @@
+#include <iostream>
+
+using namespace std;
+
+const int MAX_BOOKS = 100;
+const int MAX_TITLE_LENGTH = 100;
+const int MAX_AUTHOR_LENGTH = 100;
+const int MAX_PUBLISHEDYEAR = 100;
+
+char titles[MAX_BOOKS][MAX_TITLE_LENGTH];
+char authors[MAX_BOOKS][MAX_AUTHOR_LENGTH];
+char yearsPublished[MAX_BOOKS][MAX_PUBLISHEDYEAR];
+bool isAvailable[MAX_BOOKS];
+int numBooks = 0;
+
+int main()
+{
+
+    while (true)
+    {
+        cout << "Enter an option:\n";
+        cout << "1. Add a book\n";
+        cout << "2. Remove a book\n";
+        cout << "3. Display all books\n";
+        cout << "4. Exit\n";
+
+        int choice;
+        cin >> choice;
+
+        if (choice == 1)
+        {
+            cin.ignore(); 
+            if (numBooks == MAX_BOOKS)
+            {
+                cout << "Library is full. Cannot add more books.\n";
+            }
+            else
+            {
+                cout << "Enter the book title: ";
+                cin.getline(titles[numBooks], MAX_TITLE_LENGTH);
+                cout << "Enter the book author: ";
+                cin.getline(authors[numBooks], MAX_AUTHOR_LENGTH);
+                cout << "Enter the year the book was published: ";
+                cin.getline(yearsPublished[numBooks], MAX_PUBLISHEDYEAR);
+                isAvailable[numBooks] = true;
+                numBooks++;
+                cout << "Book added successfully.\n";
+            }
+        }
+        else if (choice == 2)
+        {
+            if (numBooks == 0)
+            {
+                cout << "Library is empty. Cannot remove any books.\n";
+            }
+            else
+            {
+                cout << "Enter the index of the book to remove: ";
+                int index;
+                cin >> index;
+                cin.ignore(); 
+                if (index < 0 || index >= numBooks)
+                {
+                    cout << "Invalid index. Please enter a valid index.\n";
+                }
+                else
+                {
+                    for (int i = index; i < numBooks - 1; i++)
+                    {
+                        (titles[i], titles[i + 1]);
+                        (authors[i], authors[i + 1]);
+                        (yearsPublished[i], yearsPublished[i + 1]);
+                        isAvailable[i] = isAvailable[i + 1];
+                    }
+                    numBooks--;
+                    cout << "Book removed successfully.\n";
+                }
+            }
+        }
+        else if (choice == 3)
+        {
+            if (numBooks == 0)
+            {
+                cout << "Library is empty. Cannot display any books.\n";
+            }
+            else
+            {
+                cout << "Library books:\n";
+                for (int i = 0; i < numBooks; i++)
+                {
+                    cout << i << ". " << titles[i] << " by " << authors[i] << " (" << yearsPublished[i] << ")";
+                    if (isAvailable[i])
+                    {
+                        cout << " - Available\n";
+                    }
+                    else
+                    {
+                        cout << " - Not Available\n";
+                    }
+                }
+            }
+        }
+        else if (choice == 4)
+        {
+            cout << "Exiting program. Goodbye!\n";
+            break;
+        }
+        else
+        {
+            cout << "Invalid option. Please enter a valid option.\n";
+        }
+    }
+
+    return 0;
+}
